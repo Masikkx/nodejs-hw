@@ -13,7 +13,14 @@ export const connectMongoDB = async () => {
       dns.setServers(dnsServers);
     }
 
-    await mongoose.connect(mongoUrl);
+    if (!mongoUrl) {
+      throw new Error('MONGO_URL is not set');
+    }
+
+    await mongoose.connect(mongoUrl, {
+      serverSelectionTimeoutMS: 10000,
+      connectTimeoutMS: 10000,
+    });
     console.log('✅ MongoDB connection established successfully');
   } catch (error) {
     console.error('❌ Failed to connect to MongoDB:', error.message);
