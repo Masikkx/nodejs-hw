@@ -19,14 +19,13 @@ const getTransporter = () => {
   return cachedTransporter;
 };
 
-export const sendEmail = async ({ to, subject, html }) => {
+export const sendEmail = async ({ to, subject, html, from }) => {
   const transporter = getTransporter();
 
   return transporter.sendMail({
-    from: process.env.SMTP_FROM,
+    from,
     to,
     subject,
     html,
   });
 };
-
